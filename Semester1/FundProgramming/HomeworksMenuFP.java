@@ -1,8 +1,6 @@
 package AcademicPortfolio.Semester1.FundProgramming;
 
-import java.util.Scanner;
-import java.util.Arrays;
-import java.util.ArrayList;
+import java.util.*;
 
 public class HomeworksMenuFP {
     public static void main(String[] args) {
@@ -23,7 +21,7 @@ public class HomeworksMenuFP {
     }
 
     public static void menu(Scanner input) {
-        while (1 != 0) {
+        while (true) {
             clearScreen();
             System.out.println("======PROGRAM MENU======");
             System.out.println("1. Gas Station Program");
@@ -35,6 +33,10 @@ public class HomeworksMenuFP {
             System.out.println("7. Wholesale discount");
             System.out.println("8. Cashier Program");
             System.out.println("9. Friendly Numbers");
+            System.out.println("10. Square with character");
+            System.out.println("11. Transform ");
+            System.out.println("12. Calculator of GPA ");
+            System.out.println("13. Number rounded for n decimals ");
             System.out.println("0. Exit");
             System.out.print("Select an option: ");
             int opt = input.nextInt();
@@ -42,7 +44,7 @@ public class HomeworksMenuFP {
                 case 0:
                     return;
                 case 1:
-                    gasStaion(input);
+                    gasStation(input);
                     break;
                 case 2:
                     triangle(input);
@@ -68,14 +70,28 @@ public class HomeworksMenuFP {
                 case 9:
                     amiNum(input);
                     break;
+                case 10:
+                    square(input);
+                    break;
+                case 11:
+                    temperature(input);
+                    break;
+                case 12:
+                    GPA(input);
+                    break;
+                case 13:
+                    nRounding(input);
+                    break;
                 default:
+                    System.out.println("Enter a valid option...");
+                    pause(input);
                     break;
             }
         }
 
     }
 
-    public static void gasStaion(Scanner input) {
+    public static void gasStation(Scanner input) {
         clearScreen();
         // Inputs block, saves in primitive variables with input object
         System.out.print("Enter the distance traveled in kilometers: ");
@@ -332,4 +348,146 @@ public class HomeworksMenuFP {
         pause(input);
         return;
     }
-}
+
+    public static String rowChar(String chara, Integer side) {
+        return (chara.repeat(side)); //Repeats the sent character according to the side length
+    }
+    public static void square(Scanner input){
+        clearScreen();
+        int side = 0;
+        System.out.print("Enter the character you want to use to make a square: ");
+        String chara = input.next();
+        while (side < 1) { // Does not allow entering numbers less than 1
+            System.out.print("Enter the side size: ");
+            side = input.nextInt();
+            if (side < 1) { //If a number less than 1 is entered, it prints an error message
+                System.out.println("Enter a number greater than 0");
+                pause(input);
+                clearScreen();
+            }
+        }
+        String row = rowChar(chara,side);
+        for (int i = 0; i < side; i++) { //Prints the string of characters according to the side to form the square
+            System.out.println(row);
+        }
+        pause(input);
+        return;
+    }
+
+    public static Double fahrenheit(double centigrade) {
+        return((centigrade*9.0/5.0)+32); //Receives Celsius degrees and returns the quick conversion to Fahrenheit
+    }
+    public static Double centigrade(double fahrenheit) {
+        return ((fahrenheit-32)*5/9); //Receives Fahrenheit degrees and returns the quick conversion to Celsius
+    }
+    public static void temperature(Scanner input) {
+        Boolean f = true;
+        double conv = 0;
+        while (f) {
+            clearScreen();
+            System.out.println("=============Temperatures Menu=============");
+            System.out.println("1. Convert Celsius to Fahrenheit");
+            System.out.println("2. Convert Fahrenheit to Celsius");
+            System.out.println("0. Exit");
+            System.out.print("Select an option: ");
+            int opt = input.nextInt();
+            if (opt == 0) {
+                pause(input);
+                return;
+            }
+            System.out.print("Enter the degrees: "); //Entering degrees is outside to avoid repeating per case
+            Double deg = input.nextDouble();
+            switch (opt) {
+                case 1:
+                    conv = fahrenheit(deg); // saves in conv what the fahrenheit function returns
+                    System.out.printf("%.2f Celsius degrees are %.2f Fahrenheit degrees",deg,conv);
+                    pause(input);
+                    break;
+                case 2:
+                    conv = centigrade(deg); // saves in conv what the centigrade function returns
+                    System.out.printf("%.2f Fahrenheit degrees are %.2f Celsius degrees",deg,conv);
+                    pause(input);
+                    break;
+                default:
+                    System.out.println("Enter a valid option...");
+                    pause(input);
+                    break;
+            }
+        }
+    }
+    
+    public static Double average(double[] grades) {
+        double aver = 0;
+        for (int i=0; i< 3;i++){
+            aver += grades[i];
+        }
+        return aver/3; // Returns the grade average
+    }
+    public static Integer equivalence(double aver) { //Depending on aver, returns a value from 0 to 4 to the main function
+        if (aver <= 60) {
+            return 0;
+        }
+        else if (aver <= 70) {
+            return 1;
+        }
+        else if (aver <= 80) {
+            return 2;
+        }
+        else if (aver <= 90) {
+            return 3;
+        }
+        else{
+            return 4;
+        }
+    }
+    public static void GPA(Scanner input) {
+        clearScreen();
+        double[] grades = new double[3];
+        int i = 0;
+        while (i<3) //Does not allow exiting as long as 3 valid grades have not been entered
+        {
+            clearScreen();
+            System.out.printf("Enter grade %d: ",i+1);
+            grades[i] = input.nextDouble();
+            if (grades[i] < 0 || grades[i] > 100) { // Prints an error message if the grade is less than 0 or greater than 100
+                System.out.println("Enter a valid grade...");
+                pause(input);
+            }
+            else{
+                i++; //adds 1 to the counter to exit when there are already 3 valid grades
+            }
+        }
+        double aver = average(grades); //Goes to the average function with grades and returns the average of the grades saving them in aver
+        int equi = equivalence(aver); //Goes to the equivalence function with aver and saves a value from 0 to 4 in equi
+        for (int j = 0;j<3;j++){
+            System.out.printf("Grade %d: %.2f%n",j+1,grades[j]);
+        }
+        System.out.printf("The average %.2f is equivalent to: %d",aver,equi);
+        pause(input);
+    }
+
+    public static double round(double num,int nDecimals) {
+        double fac = Math.pow(10, nDecimals);
+        double aux = (num*fac)+0.5;
+        int integerPart = (int) aux;
+        return integerPart/fac;
+    }
+    public static void nRounding(Scanner input) {
+        clearScreen();
+        int nDecimals = -1;
+        System.out.print("Enter the number you want to round: ");
+        double num = input.nextDouble();
+        while (nDecimals < 0) { //Does not allow entering numbers less than 0
+            System.out.print("Enter the number of decimals you want to round to: ");
+            nDecimals = input.nextInt();
+            if (nDecimals < 0) { //Prints an error message if the user entered a number less than 0
+                System.out.println("Enter a number greater than or equal to 0");
+                pause(input);
+                clearScreen();
+            }
+        }
+        double roundedNum = round(num,nDecimals); // Goes to the rounding function with the number and the number of decimals
+        System.out.printf("%s rounded to %d decimals is: %." + nDecimals + "f",num,nDecimals,roundedNum);
+        pause(input);              //" + nDecimals + " is to print the rounded number according to the decimals the user entered
+    }
+} 

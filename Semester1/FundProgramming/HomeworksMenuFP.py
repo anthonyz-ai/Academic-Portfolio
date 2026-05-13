@@ -22,6 +22,10 @@ def menu():
         print("7. Wholesale discount")
         print("8. Cashier Program")
         print("9. Numbers Friends")
+        print("10. Square with symbols")
+        print("11. Convert celsius degrees to farenheit or vice versa")
+        print("12. Equivalence of grades")
+        print("13. Round number with n decimals")
         print("0. Exit")
         option = input("Select an option: ")
         match option:
@@ -43,10 +47,17 @@ def menu():
                 cashier()
             case "9":
                 aminum()
+            case "10":
+                sqrsymb()
+            case "11":
+                temperature()
+            case "12":
+                GPA()
+            case "13":
+                roundNum()
             case "0":
                 return
             case _:
-                ClearScreen()
                 print("Select a correct option")
                 input("Press intro to continue...")
 
@@ -230,6 +241,106 @@ def aminum():
         print("They are amicable numbers")
     else:
         print("They are not amicable numbers")
+    input("Press Enter to exit...")
+
+def symbolsSquare(size,symb):
+    return symb * size 
+    # multiplicate the list of the char with the size it's more faster than use two for loops
+def sqrsymb():
+    f = True
+    ClearScreen()
+    symb = input("Enter the symbol want to create a square: ")
+    while f: # Loop for don't input numbers meniors than 1
+        size = int(input("Enter the size of the side of square "))
+        if size < 1:
+            print("Enter a valid number greater than 0")
+            input("Press enter to continue...")
+            ClearScreen()
+        else:
+            f = False
+    row = symbolsSquare(size,symb) # Go to the symbolsSquare function with size and symbol
+    # The function return the matrix
+    for i in range(size): #print the rows
+        print(row)
+    input("Press Enter to exit...")
+
+def convert(opt):
+    if opt == 1:
+        temp = "Celsius" # Thats to prints if opt 1
+    else:
+        temp = "Fahrenheit" # Thats to prints if opt is not 1
+    deg = float(input(f"Enter the {temp} temperature: ")) # Input the temperature according opt
+    if opt == 1: # Depending on the opt the message and the calculation will be different
+        print(f"{deg} degrees {temp} is {round((deg*9/5)+32,2)} degrees Fahrenheit ") # thats for 1 opt
+    else:
+        print(f"{deg} degrees {temp} is {round((deg-32)*5/9,2)} degrees Celsius ") # thats for 2 opt
+def temperature():
+    while True:
+        ClearScreen()
+        print("============TEMPERATURE MENU============")
+        print("1. Convert degree Celsius to Fahrenheit")
+        print("2. Convert degree Fahrenheit to Celsius")
+        print("0. Exit")
+        opt = input("Enter your option: ") # Only input the option
+        match opt:
+            case "0":
+                return
+            case "1":
+                convert(1) # Go to the function convert with 1, which is for Celsius
+                input("Press Enter to exit...")
+            case "2":
+                convert(0) # Go to the function convert with 0, which is for Farenheint
+                input("Press Enter to exit...")
+            case _:
+                print("Enter a valid option")
+                input("Press Enter to exit...")
+                
+def equiv(prom): # Depending on the average, it returns a number from 0 to 4
+    if prom <= 60:
+        return 0
+    elif prom <= 70: 
+        return 1
+    elif prom <= 80:
+        return 2
+    elif prom <= 90:
+        return 3
+    else:
+        return 4
+def GPA():
+    averg = 0
+    i = 0
+    while i != 3: # Loop for input 3 valid grades
+        ClearScreen()
+        grade = float(input(f"Enter the {i+1} grade: "))
+        if 0 <= grade <= 100: # A valid grade is greater than 0 and less than 100
+            averg += grade # It automatically adds if the grade is valid
+            i +=1
+        else:
+            print("Enter a valid option")
+            input("Press Enter to continue...")
+    averg = round(averg / 3,2) # Calculate the average
+    equi = equiv(averg) #Go to equiv function with the average to return the equivalence
+    print(f"The equivaletion of the note {averg} it's {equi}")
+    input("Press Enter to exit...")
+
+def nround(num,n):
+    rou = ((num*(10**n)) + 0.5)  # Mutiply the num for 10 to power of n and add 0.5 to round
+    rou = int(rou) # Convert rou to int to printed with the n decimals
+    return rou/(10**n) # Return rou divide for 0 to power of n
+def roundNum():
+    ClearScreen()
+    f=True
+    num = float(input("Enter a decimal number: "))
+    while f: # Loop for input a valid number
+        n = int(input("Enter the decimals numbers you want to round to: "))
+        if n<0: # The number must be greater than 0
+            print("Enter a valid numer greater than 0")
+            input("Press Enter to continue...")
+            ClearScreen();
+        else:
+            f = False
+    round = nround(num,n) # Go to function nround with the number and the decimals numbers
+    print (f"{num} rounded with {n} decimals is: {round}")
     input("Press Enter to exit...")
 
 def thankyou():
